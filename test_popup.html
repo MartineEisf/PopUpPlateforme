@@ -143,10 +143,9 @@
     }
 
     .popup-logo img {
-      max-width: 130px;
+      max-width: 80px;
       height: auto;
       display: block;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
     /* =============================================
@@ -623,7 +622,6 @@
         // --- BOUTON FERMER (X) ---
         const closeBtn = document.createElement("button");
         closeBtn.className = "popup-close";
-        closeBtn.setAttribute("type", "button");
         closeBtn.setAttribute("aria-label", "Fermer la fenêtre");
         closeBtn.textContent = "\u00D7";
         closeBtn.addEventListener("click", closePopup);
@@ -684,14 +682,12 @@
         // Bouton "Fermer" (ferme pour cette fois)
         const closeButton = document.createElement("button");
         closeButton.className = "popup-btn-mini";
-        closeButton.type = "button";
         closeButton.textContent = data.closeLabel || "Fermer";
         closeButton.addEventListener("click", closePopup);
 
         // Bouton "Ne plus afficher" (masque définitivement)
         const muteButton = document.createElement("button");
         muteButton.className = "popup-btn-mini";
-        muteButton.type = "button";
         muteButton.textContent = data.dismissLabel || "Ne plus afficher";
         muteButton.addEventListener("click", function () {
           hideForever(popupId);
