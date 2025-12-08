@@ -637,8 +637,14 @@
         // --- IMAGE HERO ---
         const hero = document.createElement("div");
         hero.className = "popup-hero";
-        hero.innerHTML = '<img src="Image chocolatier.png" alt="Création artisanale en chocolat" />';
+
+        // Récupéré depuis Make (lié à la ligne du Google Sheet)
+        const heroUrl = data.heroUrl || "Image chocolatier.png"; // fallback si rien dans le JSON
+        const heroAlt = data.heroAlt || "Création pâtissière EISF";
+
+        hero.innerHTML = `<img src="${heroUrl}" alt="${heroAlt}" />`;
         modal.appendChild(hero);
+
 
         // --- BODY (CONTENU) ---
         const body = document.createElement("div");
