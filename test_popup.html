@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Test pop-up EISF</title>
+
+  <!-- Google Fonts pour une typographie moderne -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       RESET & BASE STYLES
+       ============================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    /* Empêche le scroll du body quand la pop-up est ouverte */
+    body.popup-open {
+      overflow: hidden;
+    }
+
+    /* =============================================
+       PAGE DE TEST (MAIN)
+       ============================================= */
+    main {
+      text-align: center;
+      max-width: 640px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      margin-bottom: 16px;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: #64748b;
+      font-size: 1rem;
+    }
+
+    code {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      color: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    }
+
+    /* =============================================
+       POP-UP OVERLAY (FOND SEMI-TRANSPARENT)
+       ============================================= */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 20px;
+      z-index: 9999;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* =============================================
+       POP-UP MODAL (FENÊTRE PRINCIPALE)
+       ============================================= */
+    .popup-modal {
+      width: min(380px, calc(100vw - 40px));
+      max-height: calc(100vh - 40px);
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: bottom right;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* =============================================
+       HEADER (BANDEAU AVEC LOGO)
+       ============================================= */
+    .popup-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #62c1ec 0%, #4ca8d4 100%);
+      display: flex;
+      align-items: center;
+    }
+
+    .popup-logo img {
+      max-width: 130px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    /* =============================================
+       BOUTON FERMER (X)
+       ============================================= */
+    .popup-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border: none;
+      background: rgba(0, 0, 0, 0.35);
+      color: #ffffff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      font-weight: 300;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+      line-height: 1;
+    }
+
+    .popup-close:hover {
+      background: rgba(0, 0, 0, 0.55);
+      transform: scale(1.1);
+    }
+
+    .popup-close:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6);
+    }
+
+    .popup-close:focus-visible {
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
+    }
+
+    /* =============================================
+       IMAGE HERO
+       ============================================= */
+    .popup-hero {
+      width: 100%;
+      height: 160px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .popup-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.3), transparent);
+      pointer-events: none;
+    }
+
+    .popup-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* =============================================
+       BODY (CONTENU PRINCIPAL)
+       ============================================= */
+    .popup-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* =============================================
+       TEXTBOX (TITRE + MESSAGE)
+       ============================================= */
+    .popup-textbox {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .popup-title {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    .popup-message {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #475569;
+      white-space: pre-line;
+    }
+
+    /* =============================================
+       ACTIONS (BOUTON CTA PRINCIPAL)
+       ============================================= */
+    .popup-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .popup-btn {
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      transition: all 0.2s ease;
+    }
+
+    .popup-btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .popup-btn-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .popup-btn-primary:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4), 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .popup-btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       FOOTER (BOUTONS SECONDAIRES)
+       ============================================= */
+    .popup-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 4px;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 4px;
+    }
+
+    .popup-btn-mini {
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #64748b;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .popup-btn-mini:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      color: #475569;
+    }
+
+    .popup-btn-mini:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.25);
+    }
+
+    /* =============================================
+       RESPONSIVE (MOBILE)
+       ============================================= */
+    @media (max-width: 540px) {
+      body {
+        padding: 12px;
+      }
+
+      main {
+        padding: 28px 20px;
+        border-radius: 18px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .popup-overlay {
+        padding: 12px;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      .popup-modal {
+        width: 100%;
+        max-width: none;
+        border-radius: 16px 16px 0 0;
+        max-height: 85vh;
+      }
+
+      .popup-hero {
+        height: 140px;
+      }
+
+      .popup-body {
+        padding: 16px;
+      }
+
+      .popup-actions {
+        flex-direction: column;
+      }
+
+      .popup-btn {
+        width: 100%;
+        padding: 16px 20px;
+      }
+
+      .popup-footer {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .popup-btn-mini {
+        flex: 1;
+        text-align: center;
+      }
+    }
+
+    /* =============================================
+       RÉDUCTION DE MOUVEMENT (ACCESSIBILITÉ)
+       ============================================= */
+    @media (prefers-reduced-motion: reduce) {
+
+      .popup-overlay,
+      .popup-modal {
+        animation: none;
+      }
+
+      .popup-btn,
+      .popup-btn-mini,
+      .popup-close {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Test pop-up EISF</h1>
+    <p>Cette page charge le script final tel qu'il sera intégré sur la plateforme.</p>
+    <p>
+      Webhook Make : <code>https://hook.eu1.make.com/umrbouao8ry7le3xhq9yjm9o6c01di2z</code>.<br />
+      Modifiez le contexte (formation / page) dans le script si besoin.
+    </p>
+    <p>Rechargez la page pour simuler les différentes réponses envoyées par Make.</p>
+  </main>
+
+  <script>
+    /**
+     * =============================================
+     * EISF - Système de Pop-up Événementielle
+     * =============================================
+     * Ce script gère l'affichage conditionnel de pop-ups
+     * pilotées par un webhook Make (Integromat).
+     * 
+     * Fonctionnalités :
+     * - Appel automatique au webhook au chargement
+     * - Gestion du localStorage pour "Ne plus afficher"
+     * - Accessibilité : focus, Escape, aria-modal
+     */
+    (function () {
+      // =============================================
+      // CONFIGURATION (NE PAS MODIFIER)
+      // =============================================
+
+      /** URL du webhook Make - NE PAS MODIFIER */
+      const WEBHOOK_URL = "https://hook.eu1.make.com/umrbouao8ry7le3xhq9yjm9o6c01di2z";
+
+      /** Préfixe pour les clés localStorage */
+      const STORAGE_PREFIX = "eisf_popup_hidden_";
+
+      /** Contexte envoyé au webhook (à adapter selon la page) */
+      const CONTEXT = {
+        formation: "patisserie",
+        page: "dashboard",
+        langue: "fr"
+      };
+
+      // =============================================
+      // VARIABLES D'ÉTAT
+      // =============================================
+
+      /** Référence à l'overlay DOM (null si fermée) */
+      let overlayRef = null;
+
+      /** Élément ayant le focus avant ouverture (pour restauration) */
+      let focusBeforePopup = null;
+
+      // =============================================
+      // GESTION DU LOCALSTORAGE
+      // =============================================
+
+      /**
+       * Vérifie si une pop-up a été masquée définitivement.
+       * @param {string} id - Identifiant unique de la pop-up
+       * @returns {boolean} - true si la pop-up est masquée
+       */
+      function isHidden(id) {
+        if (!id) return false;
+        try {
+          return localStorage.getItem(STORAGE_PREFIX + id) === "true";
+        } catch (err) {
+          console.warn("[EISF] Impossible de lire localStorage:", err);
+          return false;
+        }
+      }
+
+      /**
+       * Enregistre définitivement le masquage d'une pop-up.
+       * @param {string} id - Identifiant unique de la pop-up
+       */
+      function hideForever(id) {
+        if (!id) return;
+        try {
+          localStorage.setItem(STORAGE_PREFIX + id, "true");
+        } catch (err) {
+          console.warn("[EISF] Impossible d'écrire dans localStorage:", err);
+        }
+      }
+
+      // =============================================
+      // GESTION DU FOCUS (ACCESSIBILITÉ)
+      // =============================================
+
+      /**
+       * Restaure le focus sur l'élément actif avant l'ouverture.
+       */
+      function restoreFocus() {
+        if (focusBeforePopup && typeof focusBeforePopup.focus === "function") {
+          focusBeforePopup.focus();
+        }
+        focusBeforePopup = null;
+      }
+
+      /**
+       * Piège le focus dans la modale (focus trap).
+       * @param {KeyboardEvent} event
+       */
+      function handleTabKey(event) {
+        if (event.key !== "Tab" || !overlayRef) return;
+
+        const modal = overlayRef.querySelector(".popup-modal");
+        if (!modal) return;
+
+        // Sélectionne tous les éléments focusables
+        const focusableElements = modal.querySelectorAll(
+          'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        // Shift+Tab depuis le premier → aller au dernier
+        if (event.shiftKey && document.activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        }
+        // Tab depuis le dernier → aller au premier
+        else if (!event.shiftKey && document.activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
+
+      // =============================================
+      // FERMETURE DE LA POP-UP
+      // =============================================
+
+      /**
+       * Ferme la pop-up et nettoie les listeners.
+       */
+      function closePopup() {
+        if (!overlayRef) return;
+
+        // Retire la classe qui bloque le scroll
+        document.body.classList.remove("popup-open");
+
+        // Supprime l'overlay du DOM
+        overlayRef.remove();
+        overlayRef = null;
+
+        // Nettoie les event listeners
+        document.removeEventListener("keydown", handleKeydown);
+
+        // Restaure le focus sur l'élément précédent
+        restoreFocus();
+      }
+
+      /**
+       * Gestionnaire clavier global (Escape + Tab).
+       * @param {KeyboardEvent} event
+       */
+      function handleKeydown(event) {
+        // Fermer avec Escape
+        if (event.key === "Escape") {
+          closePopup();
+          return;
+        }
+
+        // Piège le focus avec Tab
+        handleTabKey(event);
+      }
+
+      // =============================================
+      // CRÉATION DE LA POP-UP
+      // =============================================
+
+      /**
+       * Crée et affiche la pop-up avec les données fournies.
+       * @param {Object} data - Données de la pop-up (title, message, etc.)
+       */
+      function createPopup(data) {
+        // Récupère l'ID unique de la pop-up
+        const popupId = data.id_popup || data.id || "eisf_popup";
+
+        // Vérifie si déjà masquée définitivement
+        if (isHidden(popupId)) {
+          console.info("[EISF] Pop-up masquée:", popupId);
+          return;
+        }
+
+        // --- CRÉATION DE L'OVERLAY ---
+        overlayRef = document.createElement("div");
+        overlayRef.className = "popup-overlay";
+        overlayRef.setAttribute("role", "presentation");
+
+        // --- CRÉATION DE LA MODALE ---
+        const modal = document.createElement("div");
+        modal.className = "popup-modal";
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
+        modal.setAttribute("aria-labelledby", "popup-title-" + popupId);
+        modal.setAttribute("aria-describedby", "popup-message-" + popupId);
+
+        // --- HEADER AVEC LOGO ---
+        const header = document.createElement("div");
+        header.className = "popup-header";
+
+        const logo = document.createElement("div");
+        logo.className = "popup-logo";
+        logo.innerHTML = '<img src="logo-eisf-2.png" alt="EISF - École Internationale de Savoir-Faire" />';
+
+        // --- BOUTON FERMER (X) ---
+        const closeBtn = document.createElement("button");
+        closeBtn.className = "popup-close";
+        closeBtn.setAttribute("type", "button");
+        closeBtn.setAttribute("aria-label", "Fermer la fenêtre");
+        closeBtn.textContent = "\u00D7";
+        closeBtn.addEventListener("click", closePopup);
+
+        header.appendChild(logo);
+        modal.appendChild(closeBtn);
+        modal.appendChild(header);
+
+        // --- IMAGE HERO ---
+        const hero = document.createElement("div");
+        hero.className = "popup-hero";
+        hero.innerHTML = '<img src="Image chocolatier.png" alt="Création artisanale en chocolat" />';
+        modal.appendChild(hero);
+
+        // --- BODY (CONTENU) ---
+        const body = document.createElement("div");
+        body.className = "popup-body";
+
+        // Titre
+        const title = document.createElement("h2");
+        title.className = "popup-title";
+        title.id = "popup-title-" + popupId;
+        title.textContent = data.title || "Information";
+
+        // Message
+        const message = document.createElement("p");
+        message.className = "popup-message";
+        message.id = "popup-message-" + popupId;
+        message.textContent = data.message || "";
+
+        // Conteneur titre + message
+        const textBox = document.createElement("div");
+        textBox.className = "popup-textbox";
+        textBox.appendChild(title);
+        textBox.appendChild(message);
+
+        // --- ACTIONS (BOUTON CTA) ---
+        const actions = document.createElement("div");
+        actions.className = "popup-actions";
+
+        if (data.ctaUrl) {
+          const cta = document.createElement("a");
+          cta.className = "popup-btn popup-btn-primary";
+          cta.textContent = data.ctaLabel || "En savoir plus";
+          cta.href = data.ctaUrl;
+          cta.target = "_blank";
+          cta.rel = "noopener noreferrer";
+          cta.addEventListener("click", function () {
+            reportEvent("cta_click", popupId);
+          });
+          actions.appendChild(cta);
+        }
+
+        // --- FOOTER (BOUTONS SECONDAIRES) ---
+        const footer = document.createElement("div");
+        footer.className = "popup-footer";
+
+        // Bouton "Fermer" (ferme pour cette fois)
+        const closeButton = document.createElement("button");
+        closeButton.className = "popup-btn-mini";
+        closeButton.type = "button";
+        closeButton.textContent = data.closeLabel || "Fermer";
+        closeButton.addEventListener("click", closePopup);
+
+        // Bouton "Ne plus afficher" (masque définitivement)
+        const muteButton = document.createElement("button");
+        muteButton.className = "popup-btn-mini";
+        muteButton.type = "button";
+        muteButton.textContent = data.dismissLabel || "Ne plus afficher";
+        muteButton.addEventListener("click", function () {
+          hideForever(popupId);
+          reportEvent("dismiss_forever", popupId);
+          closePopup();
+        });
+
+        footer.appendChild(closeButton);
+        footer.appendChild(muteButton);
+
+        // --- ASSEMBLAGE FINAL ---
+        body.appendChild(textBox);
+        if (actions.childElementCount > 0) {
+          body.appendChild(actions);
+        }
+        body.appendChild(footer);
+
+        modal.appendChild(body);
+        overlayRef.appendChild(modal);
+        document.body.appendChild(overlayRef);
+
+        // Bloque le scroll du body
+        document.body.classList.add("popup-open");
+
+        // --- GESTION DU FOCUS ---
+        // Sauvegarde l'élément actif actuel
+        focusBeforePopup = document.activeElement;
+
+        // Place le focus sur le bouton fermer
+        closeBtn.focus();
+
+        // Active l'écoute clavier (Escape + Tab)
+        document.addEventListener("keydown", handleKeydown);
+
+        // Log l'affichage
+        reportEvent("display", popupId);
+      }
+
+      // =============================================
+      // REPORTING D'ÉVÉNEMENTS
+      // =============================================
+
+      /**
+       * Enregistre un événement pour analytics.
+       * (Prévu pour intégration Google Sheet / Make)
+       * @param {string} type - Type d'événement (display, cta_click, dismiss_forever)
+       * @param {string} popupId - Identifiant de la pop-up
+       */
+      function reportEvent(type, popupId) {
+        console.info("[EISF popup]", type, popupId);
+        // Extension future : envoi vers Make / Google Analytics
+      }
+
+      // =============================================
+      // TRAITEMENT DE LA RÉPONSE MAKE
+      // =============================================
+
+      /**
+       * Traite la réponse JSON du webhook Make.
+       * @param {Object} data - Réponse JSON { has_popup, popup: {...} }
+       */
+      function handleResponse(data) {
+        if (!data) return;
+
+        // Vérifie si une pop-up doit être affichée
+        const hasPopup = data.has_popup === true || data.show === true;
+
+        // Récupère le contenu de la pop-up
+        const payload = data.popup || data;
+
+        if (!hasPopup || !payload) return;
+
+        // Crée et affiche la pop-up
+        createPopup(payload);
+      }
+
+      // =============================================
+      // APPEL AU WEBHOOK MAKE
+      // =============================================
+
+      /**
+       * Effectue l'appel fetch vers le webhook Make.
+       * Envoie le contexte et traite la réponse.
+       */
+      function fetchPopup() {
+        fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(CONTEXT)
+        })
+          .then(function (response) {
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return response.json();
+          })
+          .then(handleResponse)
+          .catch(function (error) {
+            console.error("[EISF] Erreur popup:", error);
+          });
+      }
+
+      // =============================================
+      // INITIALISATION AU CHARGEMENT DE LA PAGE
+      // =============================================
+      window.addEventListener("DOMContentLoaded", fetchPopup);
+
+    })();
+  </script>
+</body>
+
+</html>
