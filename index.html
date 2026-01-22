@@ -124,76 +124,84 @@
         ============================================= */
         .popup-close {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 30px;
-            height: 30px;
+            top: 8px;   /* Plus près du bord pour gagner de l'espace */
+            right: 8px;
+            width: 24px;  /* Réduit pour être plus discret */
+            height: 24px; /* Réduit pour être plus discret */
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.2); /* Fond plus léger */
             color: #ffffff;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1rem; /* Croix plus petite */
             line-height: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 10;
-            transition: background 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .popup-close:hover {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
+            transform: scale(1.1); /* Petit effet au survol */
         }
 
         /* =============================================
         HEADER (BANDEAU AVEC LOGO)
         ============================================= */
         .popup-header {
-            padding: 12px 16px;
+            height: 60px; /* Un peu plus haut pour ne pas étouffer le logo */
             background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
             display: flex;
             align-items: center;
-            transition: background 0.3s ease;
-            position: relative; /* Pour positionner le logo au-dessus */
-            z-index: 2; /* S'assure que le header est au-dessus de l'image */
+            position: relative;
+            z-index: 10;
+            margin-bottom: 0 !important;
         }
 
         .popup-header img {
-            max-width: 50px; /* Logo légèrement plus grand */
+            position: absolute;
+            top: 16px;      /* Décalage par rapport au haut */
+            left: 16px;    /* Aligné à gauche */
+            max-width: 45px; /* Un peu plus grand pour l'effet de chevauchement */
             height: auto;
-            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); /* Ajoute du relief sur l'image */
+            z-index: 11;
+            border-radius: 8px; /* BORDS ARRONDIS pour le logo */
         }
+}
 
         /* =============================================
         IMAGE HERO (AJUSTÉE)
         ============================================= */
         .popup-hero {
             width: 100%;
-            height: 160px; /* Hauteur fixe comme au début pour le design */
+            height: 200px; /* On l'agrandit un peu pour l'esthétique */
             overflow: hidden;
             position: relative;
             background-color: var(--theme-bg-light); /* Couleur de fond selon le thème */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: block; /* On passe en block pour supprimer les micro-espaces flex */
+            margin: 0;      /* Sécurité : aucune marge */
+            padding: 0;     /* Sécurité : aucun espace interne */
         }
 
         .popup-hero img {
-            max-width: 100%; /* L'image s'adapte à la largeur du conteneur */
-            max-height: 100%; /* L'image s'adapte à la hauteur du conteneur */
-            object-fit: contain; /* L'image est entièrement visible */
-            display: block;
+          width: 100%;       /* Prend toute la largeur */
+          height: 100%;      /* Prend toute la hauteur */
+          object-fit: cover; /* REMPLIT tout le cadre sans laisser de blanc (effet "photo pro") */
+          display: block;    /* Colle parfaitement au header */
+          border: none;
         }
 
         /* =============================================
         BODY (CONTENU PRINCIPAL)
         ============================================= */
         .popup-content {
-            padding: 20px;
+            padding: 24px;      /* Plus de marge sur les côtés */
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 24px;          /* C'est cet espace qui aère les blocs entre eux */
         }
 
         /* =============================================
@@ -202,8 +210,17 @@
         .popup-textbox {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border-radius: 16px;
-            padding: 18px;
+            padding: 20px;      /* Plus d'espace à l'intérieur du bloc gris */
             border: 1px solid rgba(148, 163, 184, 0.15);
+        }
+
+        .popup-message {
+            margin: 0;
+            font-size: 0.92rem;
+            line-height: 1.6;   /* Interligne plus grand pour aérer le texte */
+            color: #475569;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
 
         .popup-title {
@@ -227,27 +244,29 @@
         /* =============================================
         ACTIONS (BOUTON CTA)
         ============================================= */
+        /* BOUTON LIEN (CTA) TRÈS COMPACT */
         .cta-button {
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            padding: 14px 20px;
-            font-size: 0.95rem;
+            border-radius: 8px;
+            padding: 8px 16px;  /* Bouton plus fin */
+            font-size: 0.8rem;  /* Texte écrit plus petit */
             font-weight: 600;
-            font-family: inherit;
-            text-align: center;
-            text-decoration: none;
-            display: inline-flex; /* Pour le centrage horizontal */
+            width: fit-content; /* Largeur réduite au texte */
+            margin: 0 auto;     /* Centré */
+            display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%; /* Prend toute la largeur disponible */
-            max-width: 300px; /* Limite la largeur du bouton pour le centrage */
-            margin-left: auto; /* Centrage */
-            margin-right: auto; /* Centrage */
             background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
             color: #ffffff;
+            text-decoration: none;
             box-shadow: 0 4px 14px var(--theme-shadow);
             transition: all 0.2s ease;
+        }
+
+        /* Effet au survol : on peut le garder subtil */
+        .cta-button:hover {
+            background: linear-gradient(135deg, var(--theme-end) 0%, var(--theme-start) 100%);
+            transform: translateY(-1px); /* Moins de mouvement au survol */
+            box-shadow: 0 4px 12px var(--theme-shadow-hover);
         }
 
         .cta-button:hover {
@@ -381,51 +400,55 @@
                 const themeName = data.theme_couleur ? data.theme_couleur.toLowerCase().trim() : 'rouge';
                 const themeClass = `variant-${themeName}`;
                 
+                // On définit l'image : si vide, "null", ou espace, on met la par défaut immédiatement
                 let heroImg = data.heroUrl;
-                if (!heroImg || heroImg.trim() === "" || heroImg === "null") {
+                if (!heroImg || heroImg.trim() === "" || heroImg === "null" || heroImg === "undefined") {
                     heroImg = paths.heroDefault;
                 }
 
                 const messageToDisplay = formatMessageWithLineBreaks(data.message || 'Contenu du message par défaut.');
 
                 const modalHtml = `
-                    <div class="popup-overlay" id="eisfOverlay">
-                        <div class="popup-modal ${themeClass}">
-                            <button class="popup-close" aria-label="${data.closeLabel || 'Fermer la fenêtre'}" 
-                                onclick="document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
-                                &times;
-                            </button>
-                            <div class="popup-header">
-                                <img src="${paths.logo}" alt="Logo EISF - École Internationale de Savoir-Faire">
+                <div class="popup-overlay" id="eisfOverlay">
+                    <div class="popup-modal ${themeClass}">
+                        <button class="popup-close" aria-label="Fermer la fenêtre" 
+                            onclick="document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
+                            &times;
+                        </button>
+                        
+                        <div class="popup-header">
+                            <img src="${paths.logo}" alt="Logo EISF">
+                        </div>
+                        
+                        <div class="popup-hero">
+                            <img src="${heroImg}" alt="Illustration" onerror="if(this.src!=='${paths.heroDefault}'){this.src='${paths.heroDefault}';}">
+                        </div>
+                        
+                        <div class="popup-content">
+                            <div class="popup-textbox">
+                                <h2 class="popup-title">${data.title || 'Information'}</h2>
+                                <p class="popup-message">${messageToDisplay}</p>
                             </div>
-                            <div class="popup-hero">
-                                <img src="${heroImg}" alt="Image d'illustration" 
-                                    onerror="this.src='${paths.heroDefault}'">
-                            </div>
-                            <div class="popup-content">
-                                <div class="popup-textbox">
-                                    <h2 class="popup-title">${data.title || 'Information importante'}</h2>
-                                    <p class="popup-message">${messageToDisplay}</p>
-                                </div>
-                                ${data.ctaUrl && data.ctaUrl.trim() !== "" && data.ctaUrl !== "#" ? 
-                                    `<a href="${data.ctaUrl}" target="_blank" rel="noopener noreferrer" class="cta-button">
-                                        ${data.cta_label || 'En savoir plus'}
-                                    </a>` 
-                                    : ''}
-                                <div class="footer-btns">
-                                    <button class="btn-mini" 
-                                        onclick="document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
-                                        ${data.closeLabel || 'Plus tard'}
-                                    </button>
-                                    <button class="btn-mini" 
-                                        onclick="localStorage.setItem('${storagePrefix + safeId}', 'true'); document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
-                                        ${data.dismissLabel || 'Ne plus afficher'}
-                                    </button>
-                                </div>
+                            
+                            ${data.ctaUrl && data.ctaUrl.trim() !== "" && data.ctaUrl !== "#" ? 
+                                `<a href="${data.ctaUrl}" target="_blank" rel="noopener noreferrer" class="cta-button">
+                                    ${data.cta_label || 'En savoir plus'}
+                                </a>` : ''}
+                            
+                            <div class="footer-btns">
+                                <button class="btn-mini" 
+                                    onclick="document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
+                                    Plus tard
+                                </button>
+                                <button class="btn-mini" 
+                                    onclick="localStorage.setItem('${storagePrefix + safeId}', 'true'); document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
+                                    Ne plus afficher
+                                </button>
                             </div>
                         </div>
                     </div>
-                `;
+                </div>`;
+                
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
                 document.body.classList.add("popup-open");
             }
@@ -436,22 +459,22 @@
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify({source: "browser_test", timestamp: Date.now()}) 
             })
-            .then(res => {
-                if (!res.ok) {
-                    console.error("[EISF] Erreur HTTP de Make:", res.status, res.statusText);
-                    throw new Error("Réponse Make non-OK");
+            .then(res => res.text()) 
+            .then(text => { 
+                console.log("[EISF] Réponse brute de Make:", text);
+                try {
+                    const data = JSON.parse(text); 
+                    if (data && data.show && data.title && data.title.trim() !== "") {
+                        showPopup(data);
+                    } else {
+                        console.log("[EISF] Pop-up inactive ou masquée (show: false).");
+                    }
+                } catch (e) {
+                    // Si Make envoie "Accepted", on arrive ici proprement
+                    console.log("[EISF] Aucune pop-up à afficher (Réponse texte reçue).");
                 }
-                return res.json();
             })
-            .then(data => { 
-                console.log("[EISF] Données reçues de Make:", data);
-                if (data.show === false || !data.title || data.title.trim() === "") {
-                    console.log("[EISF] Pop-up désactivée (show: false ou titre vide/null).");
-                    return;
-                }
-                showPopup(data);
-            })
-            .catch(err => console.error("[EISF] Erreur lors du fetch ou du traitement JSON:", err));
+            .catch(err => console.error("[EISF] Erreur réseau ou critique:", err));
         })();
     </script>
 </body>
