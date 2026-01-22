@@ -1,0 +1,11 @@
+/* --- Aération du texte et messages --- */
+.chat-box {
+    padding: 38px 36px !important;
+    font-size: 17px;
+    line-height: 2.1;
+}
+.bubble, .info-card, .notes-textarea, .input-area, .exam-modal-content, .exam-end-modal-content {
+    margin-bottom: 18px;
+    margin-top: 18px;
+}
+/* --- Fin aération custom --- */
