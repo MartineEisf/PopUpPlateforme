@@ -81,8 +81,8 @@
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
             display: flex;
-            align-items: flex-start;    
-            justify-content: flex-end; 
+            align-items: center;    
+            justify-content: center;
             padding: 40px;
             z-index: 9999;
             animation: fadeIn 0.3s ease-out forwards;
@@ -168,6 +168,16 @@
             border-radius: 8px;
         }
 
+        .popup-title-header {
+            margin: 0;
+            margin-left: 70px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
         /* =============================================
         IMAGE HERO (AJUSTÉE)
         ============================================= */
@@ -194,10 +204,10 @@
         BODY (CONTENU PRINCIPAL)
         ============================================= */
         .popup-content {
-            padding: 24px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 12px;
         }
 
         /* =============================================
@@ -226,6 +236,7 @@
             color: #475569;
             white-space: pre-line; /* CORRECTION: Gère les retours à la ligne naturels de façon sécurisée */
             word-break: break-word;
+            text-align: center;
         }
 
         /* =============================================
@@ -340,10 +351,6 @@
 </head>
 
 <body>
-    <main>
-        <p>Videz le cache / localStorage pour voir la pop-up à chaque rafraîchissement.</p>
-        <p><a href="javascript:localStorage.clear();location.reload();">Cliquer ici pour vider le cache et recharger la page</a>.</p>
-    </main>
 
     <script>
         (function () {
@@ -377,7 +384,7 @@
                 }
 
                 // CORRECTION 2: Suppression de formatMessageWithLineBreaks - on utilise le texte brut
-                const messageToDisplay = data.message || 'Contenu du message par défaut.';
+                const messageToDisplay = (data.message || 'Contenu du message par défaut.').replace(/\.\s+/g, '.<br>');
 
                 const modalHtml = `
                 <div class="popup-overlay" id="eisfOverlay">
@@ -388,8 +395,9 @@
                         </button>
                         
                         <div class="popup-header">
-                            <img src="${paths.logo}" alt="Logo EISF">
-                        </div>
+                        <img src="${paths.logo}" alt="Logo EISF">
+                        <h2 class="popup-title-header">${data.title || 'Information'}</h2>
+                    </div>
                         
                         <div class="popup-hero">
                             <img src="${heroImg}" alt="Illustration">
@@ -397,7 +405,6 @@
                         
                         <div class="popup-content">
                             <div class="popup-textbox">
-                                <h2 class="popup-title">${data.title || 'Information'}</h2>
                                 <p class="popup-message">${messageToDisplay}</p>
                             </div>
                             
