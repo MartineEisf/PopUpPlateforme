@@ -369,6 +369,8 @@
     <script>
         (function () {
             const webhookUrl = "https://hook.eu1.make.com/umrbouao8ry7le3xhq9yjm9o6c01di2z";
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageId = urlParams.get('page_id') || 'inconnu';
             const storagePrefix = "eisf_popup_hidden_"; // Préfixe pour localStorage
             const paths = {
                 logo: "https://raw.githubusercontent.com/MartineEisf/PopUpPlateforme/main/Visuels/logo-eisf-2.png",
@@ -457,7 +459,7 @@
             fetch(webhookUrl, { 
                 method: 'POST', 
                 headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({source: "browser_test", timestamp: Date.now()}) 
+                body: JSON.stringify({page_id: pageId, timestamp: Date.now()}) 
             })
             .then(res => res.text()) 
             .then(text => { 
