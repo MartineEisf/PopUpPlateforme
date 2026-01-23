@@ -83,7 +83,7 @@
             display: flex;
             align-items: flex-start;    
             justify-content: flex-end; 
-            padding: 0; /* REMPLACER 20px par 0 */
+            padding: 40px;
              z-index: 9999;
              animation: fadeIn 0.3s ease-out forwards;
 }
@@ -147,24 +147,25 @@
         HEADER (BANDEAU AVEC LOGO)
         ============================================= */
         .popup-header {
-            height: 60px; /* Un peu plus haut pour ne pas étouffer le logo */
+            height: 60px;
             background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
             display: flex;
             align-items: center;
-            position: fixed;
+            position: relative; /* <--- CHANGÉ : 'relative' au lieu de 'fixed' pour rester dans la boîte */
+            width: 100%;
             z-index: 10;
-            margin-bottom: 0 !important;
         }
 
         .popup-header img {
             position: absolute;
-            top: 16px;      /* Décalage par rapport au haut */
-            left: 16px;    /* Aligné à gauche */
-            max-width: 45px; /* Un peu plus grand pour l'effet de chevauchement */
+            top: 50%; /* <--- CENTRAGE VERTICAL PARFAIT */
+            left: 16px;
+            transform: translateY(-50%); /* <--- CENTRAGE VERTICAL PARFAIT */
+            max-width: 45px;
             height: auto;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); /* Ajoute du relief sur l'image */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
             z-index: 11;
-            border-radius: 8px; /* BORDS ARRONDIS pour le logo */
+            border-radius: 8px;
         }
 
         /* =============================================
