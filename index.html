@@ -72,7 +72,7 @@
         }
 
         /* =============================================
-        POP-UP OVERLAY
+        POP-UP OVERLAY - CORRECTION MAJEURE Z-INDEX
         ============================================= */
         .popup-overlay {
             position: fixed;
@@ -84,9 +84,9 @@
             align-items: flex-start;    
             justify-content: center;
             padding: 40px;
-            z-index: 10000000;
+            z-index: 99999999 !important; /* ← CORRECTION: Plus haut que l'iframe parent */
             animation: fadeIn 0.3s ease-out forwards;
-            pointer-events: auto;
+            pointer-events: auto !important; /* ← CORRECTION: Force l'interaction */
         }
 
         @keyframes fadeIn {
@@ -105,19 +105,21 @@
             box-shadow: 
                 0 20px 25px -5px rgba(0, 0, 0, 0.2), 
                 0 10px 10px -5px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(0, 0, 0, 0.05); /* Le petit filet de contour */
+                0 0 0 1px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
             animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             transform-origin: top center;
+            pointer-events: auto !important; /* ← CORRECTION */
+            z-index: 99999999 !important; /* ← CORRECTION */
         }
 
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
-}
+        }
 
         /* =============================================
         BUTTON DE FERMETURE (X)
@@ -126,7 +128,7 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            width: 30px; /* Plus large pour le doigt/souris */
+            width: 30px;
             height: 30px;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.3);
@@ -136,10 +138,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            z-index: 20; /* Priorité maximale */
+            cursor: pointer !important; /* ← CORRECTION */
+            z-index: 999999999 !important; /* ← CORRECTION: Plus haut que tout */
             transition: all 0.2s ease;
-}
+            pointer-events: auto !important; /* ← CORRECTION */
+        }
 
         .popup-close:hover {
             background: rgba(0, 0, 0, 0.4);
@@ -211,6 +214,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            pointer-events: auto !important; /* ← CORRECTION */
         }
 
         /* =============================================
@@ -237,7 +241,7 @@
             font-size: 0.92rem;
             line-height: 1.6;
             color: #475569;
-            white-space: pre-line; /* CORRECTION: Gère les retours à la ligne naturels de façon sécurisée */
+            white-space: pre-line;
             word-break: break-word;
             text-align: center;
         }
@@ -259,8 +263,11 @@
             background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
             color: #ffffff;
             text-decoration: none;
-            box-shadow: 0 4px 6px rgba(189, 209, 69, 0.3); /* Ombre de la couleur du bouton */
+            box-shadow: 0 4px 6px var(--theme-shadow);
             transition: all 0.2s ease;
+            cursor: pointer !important; /* ← CORRECTION */
+            pointer-events: auto !important; /* ← CORRECTION */
+            z-index: 100 !important; /* ← CORRECTION */
         }
 
         .cta-button:hover {
@@ -288,6 +295,7 @@
             padding-top: 4px;
             border-top: 1px solid #f1f5f9;
             margin-top: 4px;
+            pointer-events: auto !important; /* ← CORRECTION */
         }
 
         .btn-mini {
@@ -298,9 +306,11 @@
             font-size: 0.78rem;
             font-weight: 500;
             padding: 8px 14px;
-            cursor: pointer;
+            cursor: pointer !important; /* ← CORRECTION */
             font-family: inherit;
             transition: all 0.2s ease;
+            pointer-events: auto !important; /* ← CORRECTION */
+            z-index: 100 !important; /* ← CORRECTION */
         }
 
         .btn-mini:hover {
@@ -320,13 +330,13 @@
         @media (max-width: 540px) {
             .popup-overlay {
                 padding: 20px 10px; 
-                align-items: flex-start; /* Garde la popup en haut sur mobile */
+                align-items: flex-start;
                 justify-content: center;
             }
             .popup-modal {
                 width: 95%; 
                 max-width: none;
-                border-radius: 20px; /* Garde les arrondis complets comme sur Web */
+                border-radius: 20px;
                 max-height: 90vh;
             }
             .popup-hero { height: 160px; } 
@@ -359,7 +369,7 @@
             const webhookUrl = "https://hook.eu1.make.com/umrbouao8ry7le3xhq9yjm9o6c01di2z";
             const urlParams = new URLSearchParams(window.location.search);
             const pageId = urlParams.get('page_id') || 'inconnu';
-            const forceDisplay = urlParams.get('force') === 'true'; // CORRECTION 3: Lecture du paramètre force
+            const forceDisplay = urlParams.get('force') === 'true';
             const storagePrefix = "eisf_popup_hidden_";
             
             const paths = {
@@ -367,10 +377,23 @@
                 heroDefault: "https://raw.githubusercontent.com/MartineEisf/PopUpPlateforme/main/Visuels/Visuel_defaut.jpg"
             };
 
+            // ← CORRECTION: Fonctions de fermeture globales pour garantir le clic
+            window.closePopup = function() {
+                const overlay = document.getElementById('eisfOverlay');
+                if (overlay) {
+                    overlay.remove();
+                    document.body.classList.remove('popup-open');
+                }
+            };
+
+            window.closePopupForever = function(safeId) {
+                localStorage.setItem(storagePrefix + safeId, 'true');
+                window.closePopup();
+            };
+
             function showPopup(data) {
                 const safeId = "eisf_" + btoa(unescape(encodeURIComponent(data.title || "default"))).substring(0, 15);
 
-                // CORRECTION 3: Si force=true, on ignore le localStorage
                 if (!forceDisplay && localStorage.getItem(storagePrefix + safeId)) {
                     console.log("[EISF] Pop-up déjà masquée définitivement par l'utilisateur (ID:", safeId, ")");
                     return;
@@ -379,27 +402,24 @@
                 const themeName = data.theme_couleur ? data.theme_couleur.toLowerCase().trim() : 'rouge';
                 const themeClass = `variant-${themeName}`;
                 
-                // CORRECTION 1: Gestion image simplifiée - une seule vérification
                 let heroImg = data.heroUrl;
                 if (!heroImg || heroImg.trim() === "" || heroImg === "null" || heroImg === "undefined") {
                     heroImg = paths.heroDefault;
                 }
 
-                // CORRECTION 2: Suppression de formatMessageWithLineBreaks - on utilise le texte brut
                 const messageToDisplay = (data.message || 'Contenu du message par défaut.').replace(/\.\s+/g, '.<br>');
 
                 const modalHtml = `
                 <div class="popup-overlay" id="eisfOverlay">
                     <div class="popup-modal ${themeClass}">
-                        <button class="popup-close" aria-label="Fermer la fenêtre" 
-                            onclick="document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
+                        <button class="popup-close" aria-label="Fermer la fenêtre" onclick="window.closePopup()">
                             &times;
                         </button>
                         
                         <div class="popup-header">
-                        <img src="${paths.logo}" alt="Logo EISF">
-                        <h2 class="popup-title-header">${data.title || 'Information'}</h2>
-                    </div>
+                            <img src="${paths.logo}" alt="Logo EISF">
+                            <h2 class="popup-title-header">${data.title || 'Information'}</h2>
+                        </div>
                         
                         <div class="popup-hero">
                             <img src="${heroImg}" alt="Illustration">
@@ -416,12 +436,10 @@
                                 </a>` : ''}
                             
                             <div class="footer-btns">
-                                <button class="btn-mini" 
-                                    onclick="document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
+                                <button class="btn-mini" onclick="window.closePopup()">
                                     Plus tard
                                 </button>
-                                <button class="btn-mini" 
-                                    onclick="localStorage.setItem('${storagePrefix + safeId}', 'true'); document.getElementById('eisfOverlay').remove(); document.body.classList.remove('popup-open');">
+                                <button class="btn-mini" onclick="window.closePopupForever('${safeId}')">
                                     Ne plus afficher
                                 </button>
                             </div>
@@ -431,6 +449,15 @@
                 
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
                 document.body.classList.add("popup-open");
+                
+                // ← CORRECTION: Vérification supplémentaire après insertion
+                setTimeout(() => {
+                    const overlay = document.getElementById('eisfOverlay');
+                    if (overlay) {
+                        overlay.style.pointerEvents = 'auto';
+                        overlay.style.zIndex = '99999999';
+                    }
+                }, 100);
             }
 
             console.log("[EISF] Initialisation: Appel du Webhook Make...");
