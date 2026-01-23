@@ -75,17 +75,18 @@
         POP-UP OVERLAY
         ============================================= */
         .popup-overlay {
-            position: absolute;
+            position: fixed;
             inset: 0;
-            background: transparent !important; 
+            background: rgba(0, 0, 0, 0.15) !important;
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
             display: flex;
             align-items: flex-start;    
             justify-content: center;
             padding: 40px;
-            z-index: 9999;
+            z-index: 100000;
             animation: fadeIn 0.3s ease-out forwards;
+            pointer-events: auto;
         }
 
         @keyframes fadeIn {
@@ -105,16 +106,17 @@
                 0 20px 25px -5px rgba(0, 0, 0, 0.2), 
                 0 10px 10px -5px rgba(0, 0, 0, 0.1),
                 0 0 0 1px rgba(0, 0, 0, 0.05); /* Le petit filet de contour */
+            display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
             animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            transform-origin: top right;
+            transform-origin: top center;
         }
 
         @keyframes slideDown {
-           from { opacity: 0; transform: translateY(-20px); }
-             to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
 }
 
         /* =============================================
@@ -122,23 +124,22 @@
         ============================================= */
         .popup-close {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 24px;
-            height: 24px;
+            top: 12px;
+            right: 12px;
+            width: 30px; /* Plus large pour le doigt/souris */
+            height: 30px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.3);
             color: #ffffff;
             border: none;
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 10;
+            z-index: 20; /* Priorité maximale */
             transition: all 0.2s ease;
-        }
+}
 
         .popup-close:hover {
             background: rgba(0, 0, 0, 0.4);
