@@ -10,11 +10,11 @@
         CSS VARIABLES (THÈMES)
         ============================================= */
         :root {
-            --theme-start: #D6475B; /* Rouge par défaut */
+            --theme-start: #D6475B;
             --theme-end: #C03748;
             --theme-shadow: rgba(214, 71, 91, 0.35);
             --theme-shadow-hover: rgba(214, 71, 91, 0.4);
-            --theme-bg-light: #FCE8E9; /* Couleur claire du thème pour les fonds */
+            --theme-bg-light: #FCE8E9;
         }
 
         .variant-bleu {
@@ -59,13 +59,13 @@
         }
 
         body {
-            background: transparent !important; /* Pour voir Saba derrière */
-            font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* POLICE RESTAURÉE */
+            background: transparent !important;
+            font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: #1e293b;
             margin: 0;
             padding: 0;
             overflow: hidden;
-}
+        }
 
         body.popup-open {
             overflow: hidden;
@@ -75,7 +75,7 @@
         POP-UP OVERLAY
         ============================================= */
         .popup-overlay {
-            position: fixed;
+            position: absolute;
             inset: 0;
             background: transparent !important; 
             backdrop-filter: none !important;
@@ -86,7 +86,7 @@
             padding: 20px 60px 20px 20px;
             z-index: 9999;
             animation: fadeIn 0.3s ease-out forwards;
-}
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -111,8 +111,8 @@
         }
 
         @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(-20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* =============================================
@@ -120,15 +120,15 @@
         ============================================= */
         .popup-close {
             position: absolute;
-            top: 8px;   /* Plus près du bord pour gagner de l'espace */
+            top: 8px;
             right: 8px;
-            width: 24px;  /* Réduit pour être plus discret */
-            height: 24px; /* Réduit pour être plus discret */
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2); /* Fond plus léger */
+            background: rgba(0, 0, 0, 0.2);
             color: #ffffff;
             border: none;
-            font-size: 1rem; /* Croix plus petite */
+            font-size: 1rem;
             line-height: 1;
             display: flex;
             align-items: center;
@@ -140,7 +140,7 @@
 
         .popup-close:hover {
             background: rgba(0, 0, 0, 0.4);
-            transform: scale(1.1); /* Petit effet au survol */
+            transform: scale(1.1);
         }
 
         /* =============================================
@@ -151,16 +151,16 @@
             background: linear-gradient(135deg, var(--theme-start) 0%, var(--theme-end) 100%);
             display: flex;
             align-items: center;
-            position: relative; /* <--- CHANGÉ : 'relative' au lieu de 'fixed' pour rester dans la boîte */
+            position: relative;
             width: 100%;
             z-index: 10;
         }
 
         .popup-header img {
             position: absolute;
-            top: 50%; /* <--- CENTRAGE VERTICAL PARFAIT */
+            top: 50%;
             left: 16px;
-            transform: translateY(-50%); /* <--- CENTRAGE VERTICAL PARFAIT */
+            transform: translateY(-50%);
             max-width: 45px;
             height: auto;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
@@ -173,31 +173,31 @@
         ============================================= */
         .popup-hero {
             width: 100%;
-            height: 200px; /* On l'agrandit un peu pour l'esthétique */
+            height: 200px;
             overflow: hidden;
             position: relative;
-            background-color: var(--theme-bg-light); /* Couleur de fond selon le thème */
-            display: block; /* On passe en block pour supprimer les micro-espaces flex */
-            margin: 0;      /* Sécurité : aucune marge */
-            padding: 0;     /* Sécurité : aucun espace interne */
+            background-color: var(--theme-bg-light);
+            display: block;
+            margin: 0;
+            padding: 0;
         }
 
         .popup-hero img {
-          width: 100%;       /* Prend toute la largeur */
-          height: 100%;      /* Prend toute la hauteur */
-          object-fit: cover; /* REMPLIT tout le cadre sans laisser de blanc (effet "photo pro") */
-          display: block;    /* Colle parfaitement au header */
-          border: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: none;
         }
 
         /* =============================================
         BODY (CONTENU PRINCIPAL)
         ============================================= */
         .popup-content {
-            padding: 24px;      /* Plus de marge sur les côtés */
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 24px;          /* C'est cet espace qui aère les blocs entre eux */
+            gap: 24px;
         }
 
         /* =============================================
@@ -206,17 +206,8 @@
         .popup-textbox {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border-radius: 16px;
-            padding: 20px;      /* Plus d'espace à l'intérieur du bloc gris */
+            padding: 20px;
             border: 1px solid rgba(148, 163, 184, 0.15);
-        }
-
-        .popup-message {
-            margin: 0;
-            font-size: 0.92rem;
-            line-height: 1.6;   /* Interligne plus grand pour aérer le texte */
-            color: #475569;
-            white-space: pre-wrap;
-            word-break: break-word;
         }
 
         .popup-title {
@@ -230,25 +221,24 @@
 
         .popup-message {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             line-height: 1.6;
             color: #475569;
-            white-space: pre-wrap; /* Permet retours à la ligne auto + manuels */
-            word-break: break-word; /* Casse les mots longs */
+            white-space: pre-line; /* CORRECTION: Gère les retours à la ligne naturels de façon sécurisée */
+            word-break: break-word;
         }
 
         /* =============================================
         ACTIONS (BOUTON CTA)
         ============================================= */
-        /* BOUTON LIEN (CTA) TRÈS COMPACT */
         .cta-button {
             font-family: inherit;
             border-radius: 12px;
-            padding: 10px 18px;  /* Bouton plus fin */
-            font-size: 0.9rem;  /* Texte écrit plus petit */
+            padding: 10px 18px;
+            font-size: 0.9rem;
             font-weight: 600;
-            width: fit-content; /* Largeur réduite au texte */
-            margin: 0 auto;     /* Centré */
+            width: fit-content;
+            margin: 0 auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -259,17 +249,10 @@
             transition: all 0.2s ease;
         }
 
-        /* Effet au survol : on peut le garder subtil */
         .cta-button:hover {
             background: linear-gradient(135deg, var(--theme-end) 0%, var(--theme-start) 100%);
-            transform: translateY(-1px); /* Moins de mouvement au survol */
+            transform: translateY(-1px);
             box-shadow: 0 4px 12px var(--theme-shadow-hover);
-        }
-
-        .cta-button:hover {
-            background: linear-gradient(135deg, var(--theme-end) 0%, var(--theme-start) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--theme-shadow-hover);
         }
 
         .cta-button:focus {
@@ -335,7 +318,7 @@
             }
             .popup-hero { height: 140px; }
             .popup-content { padding: 16px; }
-            .cta-button { width: 100%; max-width: none; } /* Enleve la limite de largeur sur mobile */
+            .cta-button { width: 100%; max-width: none; }
             .footer-btns {
                 flex-direction: row;
                 justify-content: space-between;
@@ -358,7 +341,6 @@
 
 <body>
     <main>
-        
         <p>Videz le cache / localStorage pour voir la pop-up à chaque rafraîchissement.</p>
         <p><a href="javascript:localStorage.clear();location.reload();">Cliquer ici pour vider le cache et recharger la page</a>.</p>
     </main>
@@ -368,30 +350,19 @@
             const webhookUrl = "https://hook.eu1.make.com/umrbouao8ry7le3xhq9yjm9o6c01di2z";
             const urlParams = new URLSearchParams(window.location.search);
             const pageId = urlParams.get('page_id') || 'inconnu';
-            const storagePrefix = "eisf_popup_hidden_"; // Préfixe pour localStorage
+            const forceDisplay = urlParams.get('force') === 'true'; // CORRECTION 3: Lecture du paramètre force
+            const storagePrefix = "eisf_popup_hidden_";
+            
             const paths = {
                 logo: "https://raw.githubusercontent.com/MartineEisf/PopUpPlateforme/main/Visuels/logo-eisf-2.png",
                 heroDefault: "https://raw.githubusercontent.com/MartineEisf/PopUpPlateforme/main/Visuels/Visuel_defaut.jpg"
             };
 
-            function formatMessageWithLineBreaks(text) {
-                // Remplace chaque point par un point suivi d'un <br> (sauf si c'est la fin du texte)
-                // Assure que le texte ne se termine pas par <br> si le dernier caractère est un point
-                let formattedText = text.replace(/\.([^\s]|$)/g, '.<br>$1');
-                formattedText = formattedText.replace(/\.\s/g, '.<br>'); // Gère aussi les points suivis d'un espace
-
-                // Si le message se termine par <br>, le supprimer
-                if (formattedText.endsWith('<br>')) {
-                    formattedText = formattedText.slice(0, -4);
-                }
-                return formattedText;
-            }
-
-
             function showPopup(data) {
                 const safeId = "eisf_" + btoa(unescape(encodeURIComponent(data.title || "default"))).substring(0, 15);
 
-                if (localStorage.getItem(storagePrefix + safeId)) {
+                // CORRECTION 3: Si force=true, on ignore le localStorage
+                if (!forceDisplay && localStorage.getItem(storagePrefix + safeId)) {
                     console.log("[EISF] Pop-up déjà masquée définitivement par l'utilisateur (ID:", safeId, ")");
                     return;
                 }
@@ -399,13 +370,14 @@
                 const themeName = data.theme_couleur ? data.theme_couleur.toLowerCase().trim() : 'rouge';
                 const themeClass = `variant-${themeName}`;
                 
-                // On définit l'image : si vide, "null", ou espace, on met la par défaut immédiatement
+                // CORRECTION 1: Gestion image simplifiée - une seule vérification
                 let heroImg = data.heroUrl;
                 if (!heroImg || heroImg.trim() === "" || heroImg === "null" || heroImg === "undefined") {
                     heroImg = paths.heroDefault;
                 }
 
-                const messageToDisplay = formatMessageWithLineBreaks(data.message || 'Contenu du message par défaut.');
+                // CORRECTION 2: Suppression de formatMessageWithLineBreaks - on utilise le texte brut
+                const messageToDisplay = data.message || 'Contenu du message par défaut.';
 
                 const modalHtml = `
                 <div class="popup-overlay" id="eisfOverlay">
@@ -420,7 +392,7 @@
                         </div>
                         
                         <div class="popup-hero">
-                            <img src="${heroImg}" alt="Illustration" onerror="if(this.src!=='${paths.heroDefault}'){this.src='${paths.heroDefault}';}">
+                            <img src="${heroImg}" alt="Illustration">
                         </div>
                         
                         <div class="popup-content">
@@ -453,6 +425,8 @@
             }
 
             console.log("[EISF] Initialisation: Appel du Webhook Make...");
+            console.log("[EISF] Page ID:", pageId, "| Force:", forceDisplay);
+            
             fetch(webhookUrl, { 
                 method: 'POST', 
                 headers: {'Content-Type': 'application/json'}, 
@@ -469,7 +443,6 @@
                         console.log("[EISF] Pop-up inactive ou masquée (show: false).");
                     }
                 } catch (e) {
-                    // Si Make envoie "Accepted", on arrive ici proprement
                     console.log("[EISF] Aucune pop-up à afficher (Réponse texte reçue).");
                 }
             })
