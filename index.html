@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -81,17 +82,24 @@
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
             display: flex;
-            align-items: flex-start;    
+            align-items: flex-start;
             justify-content: center;
             padding: 40px;
-            z-index: 99999999 !important; /* ← CORRECTION: Plus haut que l'iframe parent */
+            z-index: 99999999 !important;
+            /* ← CORRECTION: Plus haut que l'iframe parent */
             animation: fadeIn 0.3s ease-out forwards;
-            pointer-events: auto !important; /* ← CORRECTION: Force l'interaction */
+            pointer-events: auto !important;
+            /* ← CORRECTION: Force l'interaction */
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* =============================================
@@ -102,8 +110,8 @@
             max-height: calc(100vh - 40px);
             background: #ffffff;
             border-radius: 20px;
-            box-shadow: 
-                0 20px 25px -5px rgba(0, 0, 0, 0.2), 
+            box-shadow:
+                0 20px 25px -5px rgba(0, 0, 0, 0.2),
                 0 10px 10px -5px rgba(0, 0, 0, 0.1),
                 0 0 0 1px rgba(0, 0, 0, 0.05);
             display: flex;
@@ -112,13 +120,22 @@
             position: relative;
             animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             transform-origin: top center;
-            pointer-events: auto !important; /* ← CORRECTION */
-            z-index: 99999999 !important; /* ← CORRECTION */
+            pointer-events: auto !important;
+            /* ← CORRECTION */
+            z-index: 99999999 !important;
+            /* ← CORRECTION */
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* =============================================
@@ -138,10 +155,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer !important; /* ← CORRECTION */
-            z-index: 999999999 !important; /* ← CORRECTION: Plus haut que tout */
+            cursor: pointer !important;
+            /* ← CORRECTION */
+            z-index: 999999999 !important;
+            /* ← CORRECTION: Plus haut que tout */
             transition: all 0.2s ease;
-            pointer-events: auto !important; /* ← CORRECTION */
+            pointer-events: auto !important;
+            /* ← CORRECTION */
         }
 
         .popup-close:hover {
@@ -169,7 +189,7 @@
             transform: translateY(-50%);
             max-width: 45px;
             height: auto;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
             z-index: 11;
             border-radius: 8px;
         }
@@ -214,7 +234,8 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            pointer-events: auto !important; /* ← CORRECTION */
+            pointer-events: auto !important;
+            /* ← CORRECTION */
         }
 
         /* =============================================
@@ -265,9 +286,12 @@
             text-decoration: none;
             box-shadow: 0 4px 6px var(--theme-shadow);
             transition: all 0.2s ease;
-            cursor: pointer !important; /* ← CORRECTION */
-            pointer-events: auto !important; /* ← CORRECTION */
-            z-index: 100 !important; /* ← CORRECTION */
+            cursor: pointer !important;
+            /* ← CORRECTION */
+            pointer-events: auto !important;
+            /* ← CORRECTION */
+            z-index: 100 !important;
+            /* ← CORRECTION */
         }
 
         .cta-button:hover {
@@ -295,7 +319,8 @@
             padding-top: 4px;
             border-top: 1px solid #f1f5f9;
             margin-top: 4px;
-            pointer-events: auto !important; /* ← CORRECTION */
+            pointer-events: auto !important;
+            /* ← CORRECTION */
         }
 
         .btn-mini {
@@ -306,11 +331,14 @@
             font-size: 0.78rem;
             font-weight: 500;
             padding: 8px 14px;
-            cursor: pointer !important; /* ← CORRECTION */
+            cursor: pointer !important;
+            /* ← CORRECTION */
             font-family: inherit;
             transition: all 0.2s ease;
-            pointer-events: auto !important; /* ← CORRECTION */
-            z-index: 100 !important; /* ← CORRECTION */
+            pointer-events: auto !important;
+            /* ← CORRECTION */
+            z-index: 100 !important;
+            /* ← CORRECTION */
         }
 
         .btn-mini:hover {
@@ -329,35 +357,57 @@
         ============================================= */
         @media (max-width: 540px) {
             .popup-overlay {
-                padding: 20px 10px; 
+                padding: 20px 10px;
                 align-items: flex-start;
                 justify-content: center;
             }
+
             .popup-modal {
-                width: 95%; 
+                width: 95%;
                 max-width: none;
                 border-radius: 20px;
                 max-height: 90vh;
             }
-            .popup-hero { height: 160px; } 
-            .popup-content { padding: 12px 16px; }
-            .cta-button { width: 100%; max-width: none; }
+
+            .popup-hero {
+                height: 160px;
+            }
+
+            .popup-content {
+                padding: 12px 16px;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: none;
+            }
+
             .footer-btns {
                 flex-direction: row;
                 justify-content: space-between;
             }
-            .btn-mini { flex: 1; text-align: center; }
+
+            .btn-mini {
+                flex: 1;
+                text-align: center;
+            }
         }
 
         /* =============================================
         ACCESSIBILITÉ
         ============================================= */
         @media (prefers-reduced-motion: reduce) {
+
             .popup-overlay,
-            .popup-modal { animation: none !important; }
+            .popup-modal {
+                animation: none !important;
+            }
+
             .cta-button,
             .btn-mini,
-            .popup-close { transition: none !important; }
+            .popup-close {
+                transition: none !important;
+            }
         }
     </style>
 </head>
@@ -368,17 +418,19 @@
         (function () {
             const webhookUrl = "https://hook.eu1.make.com/umrbouao8ry7le3xhq9yjm9o6c01di2z";
             const urlParams = new URLSearchParams(window.location.search);
+            // MODIFICATION: Check for test mode
+            const isTestMode = urlParams.get('test') === 'true' || urlParams.get('page_id') === 'test';
             const pageId = urlParams.get('page_id') || 'inconnu';
-            const forceDisplay = urlParams.get('force') === 'true';
+            const forceDisplay = urlParams.get('force') === 'true' || isTestMode; // Force display in test mode
             const storagePrefix = "eisf_popup_hidden_";
-            
+
             const paths = {
-                logo: "https://raw.githubusercontent.com/MartineEisf/PopUpPlateforme/main/Visuels/logo-eisf-2.png",
-                heroDefault: "https://raw.githubusercontent.com/MartineEisf/PopUpPlateforme/main/Visuels/Visuel_defaut.jpg"
+                logo: "https://raw.githubusercontent.com/MartineEisf/Affiche_Digitale/main/Visuels/logo-eisf-2.png",
+                heroDefault: "https://raw.githubusercontent.com/MartineEisf/Affiche_Digitale/main/Visuels/Visuel_defaut.jpg"
             };
 
             // ← CORRECTION: Fonctions de fermeture globales pour garantir le clic
-            window.closePopup = function() {
+            window.closePopup = function () {
                 const overlay = document.getElementById('eisfOverlay');
                 if (overlay) {
                     overlay.remove();
@@ -386,7 +438,7 @@
                 }
             };
 
-            window.closePopupForever = function(safeId) {
+            window.closePopupForever = function (safeId) {
                 localStorage.setItem(storagePrefix + safeId, 'true');
                 window.closePopup();
             };
@@ -401,7 +453,7 @@
 
                 const themeName = data.theme_couleur ? data.theme_couleur.toLowerCase().trim() : 'rouge';
                 const themeClass = `variant-${themeName}`;
-                
+
                 let heroImg = data.heroUrl;
                 if (!heroImg || heroImg.trim() === "" || heroImg === "null" || heroImg === "undefined") {
                     heroImg = paths.heroDefault;
@@ -430,8 +482,8 @@
                                 <p class="popup-message">${messageToDisplay}</p>
                             </div>
                             
-                            ${data.ctaUrl && data.ctaUrl.trim() !== "" && data.ctaUrl !== "#" ? 
-                                `<a href="${data.ctaUrl}" target="_blank" rel="noopener noreferrer" class="cta-button">
+                            ${data.ctaUrl && data.ctaUrl.trim() !== "" && data.ctaUrl !== "#" ?
+                        `<a href="${data.ctaUrl}" target="_blank" rel="noopener noreferrer" class="cta-button">
                                     ${data.cta_label || 'En savoir plus'}
                                 </a>` : ''}
                             
@@ -446,10 +498,10 @@
                         </div>
                     </div>
                 </div>`;
-                
+
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
                 document.body.classList.add("popup-open");
-                
+
                 // ← CORRECTION: Vérification supplémentaire après insertion
                 setTimeout(() => {
                     const overlay = document.getElementById('eisfOverlay');
@@ -460,30 +512,48 @@
                 }, 100);
             }
 
-            console.log("[EISF] Initialisation: Appel du Webhook Make...");
+            console.log("[EISF] Initialisation...");
+
+            // MODIFICATION: Logic for test mode
+            if (isTestMode) {
+                console.log("[EISF] Mode TEST activé. Affichage immédiat d'une pop-up de démonstration.");
+                const mockData = {
+                    title: "Mode Test Activé",
+                    message: "Ceci est une pop-up de test pour vérifier le design et le fonctionnement. Aucune requête externe n'a été effectuée.",
+                    theme_couleur: "bleu", // Switch to blue for test just to show difference or keep default
+                    heroUrl: paths.heroDefault,
+                    ctaUrl: "https://www.eisf.fr",
+                    cta_label: "Lien de Test"
+                };
+                showPopup(mockData);
+                return; // Stop execution, do not call webhook
+            }
+
+            console.log("[EISF] Appel du Webhook Make...");
             console.log("[EISF] Page ID:", pageId, "| Force:", forceDisplay);
-            
-            fetch(webhookUrl, { 
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({page_id: pageId, timestamp: Date.now()}) 
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page_id: pageId, timestamp: Date.now() })
             })
-            .then(res => res.text()) 
-            .then(text => { 
-                console.log("[EISF] Réponse brute de Make:", text);
-                try {
-                    const data = JSON.parse(text); 
-                    if (data && data.show && data.title && data.title.trim() !== "") {
-                        showPopup(data);
-                    } else {
-                        console.log("[EISF] Pop-up inactive ou masquée (show: false).");
+                .then(res => res.text())
+                .then(text => {
+                    console.log("[EISF] Réponse brute de Make:", text);
+                    try {
+                        const data = JSON.parse(text);
+                        if (data && data.show && data.title && data.title.trim() !== "") {
+                            showPopup(data);
+                        } else {
+                            console.log("[EISF] Pop-up inactive ou masquée (show: false).");
+                        }
+                    } catch (e) {
+                        console.log("[EISF] Aucune pop-up à afficher (Réponse texte reçue).");
                     }
-                } catch (e) {
-                    console.log("[EISF] Aucune pop-up à afficher (Réponse texte reçue).");
-                }
-            })
-            .catch(err => console.error("[EISF] Erreur réseau ou critique:", err));
+                })
+                .catch(err => console.error("[EISF] Erreur réseau ou critique:", err));
         })();
     </script>
 </body>
+
 </html>
